@@ -1,20 +1,20 @@
 import { postApiData } from '../../utils/api';
-import { signInURI } from '../../constants/endpoints';
+import { signIn } from '../../constants/endpoints';
 
-interface AuthServiceType {
-    email: string;
+export interface AuthServiceType {
+    username: string;
     password: string;
 }
 
 const AuthService = {
-  async postSignIn({ email, password }: AuthServiceType) {
+  async postSignIn({ username, password }: AuthServiceType) {
     if (!password) return;
     return await postApiData(
-      signInURI,
+      signIn,
       {
-        email,
+        username,
         password,
-      }
+      },
     );
   },
 };

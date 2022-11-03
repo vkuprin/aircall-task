@@ -12,19 +12,13 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons';
 import { useAuth } from '../../context/AuthProvider';
 import styles from './index.module.scss';
-import AuthService from '../../services/AuthService';
+import AuthService, { AuthServiceType } from '../../services/AuthService';
 import { useUser } from '../../context/UserProvider';
 import useNotification from '../../hooks/useNotification';
 import isHttpError from '../../utils/api/statusCode';
 
 const { Title } = Typography;
 const { Content } = Layout;
-
-interface LoginProps {
-  email: string;
-  password: string;
-  domain: string;
-}
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -34,12 +28,12 @@ const SignIn = () => {
 
   const from = location.state?.from?.pathname || '/users';
 
-  const onFinish = ({ password, email }: LoginProps) => {
-    AuthService.postSignIn({ email, password })
+  const onFinish = ({ password, username }: AuthServiceType) => {
+    AuthService.postSignIn({ username, password })
       .then((r) => {
         if (!isHttpError(r.code)) {
           setUserData(r.user);
-          auth.signIn(email, () => navigate(from));
+          auth.signIn(username, () => navigate(from));
           localStorage.setItem('login', String(true));
           localStorage.setItem('tokens', JSON.stringify(r.tokens));
         } else {
@@ -80,7 +74,7 @@ const SignIn = () => {
             >
               <Form.Item
                 className="username"
-                name="email"
+                name="username"
                 rules={[
                   {
                     required: true,
