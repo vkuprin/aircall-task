@@ -17,7 +17,7 @@ const useAddTable = ({ form, ApiService }: UseAddTableProps) => () => {
     ...form.getFieldsValue(),
   }).then((r: { code: string; message: any; }) => {
     try {
-      if (!isHttpError(r.code)) {
+      if (!isHttpError(r.statusCode)) {
         window.location.reload();
         useNotification({
           placement: 'topRight',

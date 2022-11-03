@@ -31,11 +31,10 @@ const SignIn = () => {
   const onFinish = ({ password, username }: AuthServiceType) => {
     AuthService.postSignIn({ username, password })
       .then((r) => {
-        if (!isHttpError(r.code)) {
+        if (!isHttpError(r.statusCode)) {
           setUserData(r.user);
           auth.signIn(username, () => navigate(from));
-          localStorage.setItem('login', String(true));
-          localStorage.setItem('tokens', JSON.stringify(r.tokens));
+          // set
         } else {
           const firstKey = Object.keys(r.message)[0];
           useNotification({

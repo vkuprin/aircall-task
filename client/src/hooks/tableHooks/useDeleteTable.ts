@@ -10,7 +10,7 @@ interface UseDeleteTableProps {
 const useDeleteTable = ({ serviceDelete, setUserData, userData }: UseDeleteTableProps) =>
   (id: string) => {
     serviceDelete(id).then((r) => {
-      if (!isHttpError(r.code)) {
+      if (!isHttpError(r.statusCode)) {
         setUserData(userData.filter((item: { id: string }) => item.id !== id));
         useNotification({
           placement: 'topRight',

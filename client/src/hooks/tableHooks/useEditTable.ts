@@ -30,7 +30,7 @@ const useEditTable = ({
         ...row,
       },
     ).then((r) => {
-      if (!isHttpError(r.code)) {
+      if (!isHttpError(r.statusCode)) {
         useNotification({
           placement: 'topRight',
           message: 'Successfully Updated',

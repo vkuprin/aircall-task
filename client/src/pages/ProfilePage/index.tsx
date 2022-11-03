@@ -7,8 +7,8 @@ import { ReactNode, useEffect, useState } from 'react';
 import BgProfile from '../../assets/images/bg-signup.jpg';
 import profilavatar from '../../assets/images/profile_avatar.png';
 import { useUser } from '../../context/UserProvider';
-import EditModal from './components/EditModal';
-import UsersService from '../../services/UsersService';
+// import EditModal from './components/EditModal';
+// import UsersService from '../../services/UsersService';
 import useNotification from '../../hooks/useNotification';
 
 const ProfilePage = () => {
@@ -28,16 +28,16 @@ const ProfilePage = () => {
   const { userData } = apiData;
   const { ID } = useParams();
 
-  useEffect(() => {
-    if (ID) {
-      UsersService
-        .getSpecificUser(ID)
-        .then((userResult) => {
-          console.log(userResult);
-          setSpecificData(userResult);
-        });
-    }
-  }, [ID, apiData]);
+  // useEffect(() => {
+  //   if (ID) {
+  //     UsersService
+  //       .getSpecificUser(ID)
+  //       .then((userResult) => {
+  //         console.log(userResult);
+  //         setSpecificData(userResult);
+  //       });
+  //   }
+  // }, [ID, apiData]);
 
   if (typeof userData !== 'object') {
     useNotification({
@@ -136,7 +136,7 @@ const ProfilePage = () => {
             bordered={false}
             title={<h6 className="font-semibold m-0">Profile Information</h6>}
             className="header-solid h-full card-profile-information"
-            extra={<EditModal data={descriptions} id={ID} />}
+            // extra={<EditModal data={descriptions} id={ID} />}
             bodyStyle={{ paddingTop: 0, paddingBottom: 16 }}
           >
             <p className="text-dark">
