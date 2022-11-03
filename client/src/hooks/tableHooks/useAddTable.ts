@@ -15,7 +15,7 @@ const useAddTable = ({ form, ApiService }: UseAddTableProps) => () => {
 
   ApiService({
     ...form.getFieldsValue(),
-  }).then((r: { code: string; message: any; }) => {
+  }).then((r: { statusCode: string; message: any; }) => {
     try {
       if (!isHttpError(r.statusCode)) {
         window.location.reload();

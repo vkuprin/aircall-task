@@ -118,14 +118,13 @@ const deleteApiData = async (path: string) => {
     .catch(errorParser);
 };
 
-const putApiData = async (path: string, body: object) => {
+const putApiData = async (path: string) => {
   const url = `${HOST}${path}`;
   const token = getUserToken();
 
   return fetch(url, {
     method: 'PUT',
     headers: getHeaders(token),
-    body: JSON.stringify(body),
   })
     .then(checkStatus)
     .then(responseParser)

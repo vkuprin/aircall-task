@@ -13,9 +13,9 @@ import { EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons';
 import { useAuth } from '../../context/AuthProvider';
 import styles from './index.module.scss';
 import AuthService, { AuthServiceType } from '../../services/AuthService';
-import { useUser } from '../../context/UserProvider';
 import useNotification from '../../hooks/useNotification';
 import isHttpError from '../../utils/api/statusCode';
+import { calls } from '../../constants/endpoints';
 
 const { Title } = Typography;
 const { Content } = Layout;
@@ -24,15 +24,12 @@ const SignIn = () => {
   const navigate = useNavigate();
   const location: any = useLocation();
   const auth = useAuth();
-  const { setUserData } = useUser();
-
-  const from = location.state?.from?.pathname || '/users';
+  const from = location.state?.from?.pathname || calls;
 
   const onFinish = ({ password, username }: AuthServiceType) => {
     AuthService.postSignIn({ username, password })
       .then((r) => {
         if (!isHttpError(r.statusCode)) {
-          setUserData(r.user);
           auth.signIn(username, () => navigate(from));
           localStorage.setItem('auth', JSON.stringify(r));
         } else {

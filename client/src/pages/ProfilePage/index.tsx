@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import { ReactNode, useEffect, useState } from 'react';
 import BgProfile from '../../assets/images/bg-signup.jpg';
 import profilavatar from '../../assets/images/profile_avatar.png';
-import { useUser } from '../../context/UserProvider';
+import { useCalls } from '../../context/CallsProvider';
 // import EditModal from './components/EditModal';
 // import UsersService from '../../services/UsersService';
 import useNotification from '../../hooks/useNotification';
@@ -24,8 +24,8 @@ const ProfilePage = () => {
     provider,
     password,
   }, setSpecificData] = useState<Record<string, any>>({});
-  const apiData = useUser();
-  const { userData } = apiData;
+  const apiData = useCalls();
+  const { callsData } = apiData;
   const { ID } = useParams();
 
   // useEffect(() => {
@@ -39,7 +39,7 @@ const ProfilePage = () => {
   //   }
   // }, [ID, apiData]);
 
-  if (typeof userData !== 'object') {
+  if (typeof callsData !== 'object') {
     useNotification({
       placement: 'topRight',
       message: 'Error',

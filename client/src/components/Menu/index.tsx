@@ -2,6 +2,7 @@ import { Menu } from 'antd';
 import { NavLink, useLocation } from 'react-router-dom';
 import { UsergroupDeleteOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import { useAuth } from '../../context/AuthProvider';
+import { calls } from '../../constants/endpoints';
 
 interface SidenavProps {
   color: string;
@@ -67,7 +68,7 @@ const Sidenav = ({ color }: SidenavProps) => {
           Tables
         </Menu.Item>
         <Menu.Item key="1">
-          <NavLink to="/users">
+          <NavLink to={`/${calls}`}>
             <span
               className="icon"
               style={{

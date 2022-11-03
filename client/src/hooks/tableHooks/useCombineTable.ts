@@ -5,6 +5,11 @@ import useEditTable from './useEditTable';
 import useGetTable from './useGetTable';
 import useDeleteTable from './useDeleteTable';
 
+interface UseGetTableProps {
+    setUserData: (userData: any) => void;
+    ApiService: () => Promise<any>;
+}
+
 interface UseCombineTableProps {
     form: FormInstance;
     userData: any[];
@@ -26,9 +31,8 @@ const useCombineTable = ({
   DeleteService,
   AddService,
 }: UseCombineTableProps) => {
-  useGetTable({
+  useGetTable(<UseGetTableProps>{
     setUserData,
-    // @ts-ignore
     ApiService: GetService,
   });
 

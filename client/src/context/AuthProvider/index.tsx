@@ -62,12 +62,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 const useAuth = () => useContext(AuthContext);
 
 const RequireAuth = ({ children }: RequireAuthProps) => {
-  const auth = useAuth();
   const location = useLocation();
 
-  // if (!localStorage.getItem('login')) {
-  //   return <Navigate to="/" state={{ from: location }} replace />;
-  // }
+  if (!localStorage.getItem('auth')) {
+    return <Navigate to="/" state={{ from: location }} replace />;
+  }
 
   return children;
 };

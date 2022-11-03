@@ -3,12 +3,12 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SignInPage from './pages/SignInPage';
 import MainLayout from './layouts/MainLayout';
 import { AuthProvider, RequireAuth } from './context/AuthProvider';
-import { UserProvider } from './context/UserProvider';
+import { CallsProvider } from './context/CallsProvider';
 import 'antd/dist/antd.css';
 import './styles/main.scss';
 import './styles/responsive.scss';
 import './styles/form.scss';
-import UsersPage from './pages/CallsPage';
+import CallsPage from './pages/CallsPage';
 import ProfilePage from './pages/ProfilePage';
 import ErrorBoundary from './layouts/ErrorLayout';
 
@@ -26,9 +26,8 @@ const ProtectedMainLayout = ({ children }: ProtectedMainLayoutProps) => (
 
 const App = () => {
   const Components: Record<string, () => JSX.Element> = {
-    users: UsersPage,
+    calls: CallsPage,
     profile: ProfilePage,
-    hello: ProfilePage,
     '/profile/:ID': ProfilePage,
   };
 
@@ -41,7 +40,7 @@ const App = () => {
     <ErrorBoundary>
       <BrowserRouter>
         <AuthProvider>
-          <UserProvider>
+          <CallsProvider>
             <Routes>
               <Route path="/" element={<SignInPage />} />
               {
@@ -58,7 +57,7 @@ const App = () => {
               ))
       }
             </Routes>
-          </UserProvider>
+          </CallsProvider>
         </AuthProvider>
       </BrowserRouter>
     </ErrorBoundary>

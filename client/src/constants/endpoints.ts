@@ -4,17 +4,10 @@ const refresh = `${authNamespace}/refresh-token-v2`;
 const deprecatedRefresh = `${authNamespace}/refresh-token`;
 
 const calls = 'calls';
-const callsDynamic = `${calls}/:id`;
-const callsDynamicNote = `${callsDynamic}/note`;
-const callsDynamicArchive = `${callsDynamic}/archive`;
-
 const currentUser = 'me';
 
 export {
   signIn,
   calls,
-  callsDynamic,
-  callsDynamicNote,
-  callsDynamicArchive,
   currentUser,
 };

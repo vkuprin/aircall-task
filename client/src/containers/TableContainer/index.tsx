@@ -2,13 +2,11 @@ import { memo, useState } from 'react';
 import {
   Form, Table, Button, FormInstance,
 } from 'antd';
-import cs from 'classnames';
+import type { TablePaginationConfig } from 'antd/es/table';
 import EditableCell from '../../components/EditableCell';
 import TableTitle from '../../components/TableTitle';
 import Modal from '../../components/Modal';
 import RenderLayout, { containerTypes } from '../../layouts/RenderLayout';
-
-// import styles from '../../pages/ProfilePage/components/index.module.scss';
 
 interface TableContainerProps {
     dataFetch: any[];
@@ -19,6 +17,12 @@ interface TableContainerProps {
     isEditing: any;
     title: string;
     layoutData?: any[];
+}
+
+interface TableParams {
+    pagination?: TablePaginationConfig;
+    sortField?: string;
+    sortOrder?: string;
 }
 
 const TableContainer = ({
@@ -33,6 +37,12 @@ const TableContainer = ({
   ...otherProps
 }: TableContainerProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [tableParams, setTableParams] = useState<TableParams>({
+    pagination: {
+      current: 1,
+      pageSize: 10,
+    },
+  });
 
   const cancel = () => {
     setEditingKey('');

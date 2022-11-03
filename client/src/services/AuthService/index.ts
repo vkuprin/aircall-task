@@ -17,6 +17,14 @@ const AuthService = {
       },
     );
   },
+  async refreshTokenV2() {
+    return await postApiData(
+      `${signIn}/refresh-token-v2`,
+      {
+        refreshToken: localStorage.getItem('refreshToken'),
+      },
+    );
+  },
 };
 
 export default AuthService;
