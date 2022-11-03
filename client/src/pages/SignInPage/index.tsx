@@ -71,7 +71,7 @@ const SignIn = () => {
       <Content className="signin">
         <Row gutter={[24, 0]} justify="space-around">
           <Col>
-            <Title className="mb-15">Cruder</Title>
+            <Title className="mb-15">Aircall</Title>
             <Form
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}

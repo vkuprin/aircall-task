@@ -8,10 +8,7 @@ import 'antd/dist/antd.css';
 import './styles/main.scss';
 import './styles/responsive.scss';
 import './styles/form.scss';
-import ProviderPage from './pages/ProviderPage';
 import UsersPage from './pages/UsersPage';
-import UserTypesPage from './pages/UserTypesPage';
-import ProductTypesPage from './pages/ProductsPage';
 import ProfilePage from './pages/ProfilePage';
 import ErrorBoundary from './layouts/ErrorLayout';
 
@@ -29,10 +26,7 @@ const ProtectedMainLayout = ({ children }: ProtectedMainLayoutProps) => (
 
 const App = () => {
   const Components: Record<string, () => JSX.Element> = {
-    home: ProviderPage,
     users: UsersPage,
-    user_types: UserTypesPage,
-    product_types: ProductTypesPage,
     profile: ProfilePage,
     hello: ProfilePage,
     '/profile/:ID': ProfilePage,

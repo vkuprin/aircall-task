@@ -1,3 +1,5 @@
+// This file is used to rewrite the default styles of the form elements. for antd.
+
 div.ant-modal-wrap > div > div.ant-modal-content > div.ant-modal-body > form {
   .ant-select-selector {
     border-radius: 6px;
@@ -30,8 +32,17 @@ div.ant-modal-wrap {
   }
 }
 
-// ToDo we need to add this to the form.scss file and
-//  with normal height of input
+.ant-btn-primary {
+  background-color: #00b388;
+    border-color: #00b388;
+    color: #fff;
+    border-radius: 6px;
+    &:hover {
+      background-color: lighten(#00b388, 5%);
+      border-color: lighten(#00b388, 5%);
+    }
+}
+
 .ant-input-password {
   input {
     position: relative;

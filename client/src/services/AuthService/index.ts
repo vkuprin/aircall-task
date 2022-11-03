@@ -14,8 +14,7 @@ const AuthService = {
       {
         email,
         password,
-      },
-      '',
+      }
     );
   },
 };

@@ -1,17 +1,20 @@
-const accountNamespace = 'account';
+const authNamespace = 'auth';
+const signIn = `/${authNamespace}/login`;
+const refresh = `/${authNamespace}/refresh-token-v2`;
+const deprecatedRefresh = `/${authNamespace}/refresh-token`;
 
-const signInURI = `/${accountNamespace}/users/signIn`;
-const providersURI = `/${accountNamespace}/providers`;
-const tokenRefreshURI = `/${accountNamespace}/users/tokens/refresh`;
-const usersURI = `/${accountNamespace}/users`;
-const productsURI = `/${accountNamespace}/products`;
-const userTypesURI = `/${accountNamespace}/userTypes`;
+const calls = '/cals';
+const callsDynamic = `${calls}/:id`;
+const callsDynamicNote = `${callsDynamic}/note`;
+const callsDynamicArchive = `${callsDynamic}/archive`;
+
+const currentUser = '/me';
 
 export {
-  signInURI,
-  providersURI,
-  tokenRefreshURI,
-  usersURI,
-  userTypesURI,
-  productsURI,
+  signIn,
+  calls,
+  callsDynamic,
+  callsDynamicNote,
+  callsDynamicArchive,
+  currentUser,
 };

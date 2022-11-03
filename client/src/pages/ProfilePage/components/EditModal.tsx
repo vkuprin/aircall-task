@@ -7,9 +7,6 @@ import styles from './index.module.scss';
 import { useUser } from '../../../context/UserProvider';
 import UsersService from '../../../services/UsersService';
 import useNotification from '../../../hooks/useNotification';
-import UserTypesService from '../../../services/UserTypesService';
-import ProviderService from '../../../services/ProvidersService';
-import ProductsService from '../../../services/ProductsService';
 import { UserTypesI } from '../../../types/userTypes.interface';
 import { activeStatus, prefixTypesData } from '../../../constants/formData';
 import { ProviderI } from '../../../types/provider.interface';
@@ -36,20 +33,6 @@ const EditModal = ({ data, id }: EditModalProps) => {
   const hideModal = () => {
     setVisible(false);
   };
-
-  useEffect(() => {
-    const resultUserType = UserTypesService.getUserTypes();
-    const resultProvider = ProviderService.getProviders();
-    const resultProducts = ProductsService.getProducts();
-
-    Promise
-      .all([resultUserType, resultProvider, resultProducts])
-      .then(([userTypes, providers, products]) => setApiDatas({
-        userTypes,
-        providers,
-        products,
-      }));
-  }, []);
 
   // TODO more smooth data fom description object
   const layoutData = [

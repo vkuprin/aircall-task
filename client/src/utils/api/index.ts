@@ -1,8 +1,8 @@
 import config from '../../config';
 
-const HOST = 'https://deployed-vitaly-dev.com';
+const HOST = 'https://frontend-test-api.aircall.dev/';
 
-const getUserAgent = () => `Kuprins-${navigator.userAgent}`;
+const getUserAgent = () => navigator.userAgent;
 
 const headersData = {
   'X-edge-agent': getUserAgent(),
@@ -70,7 +70,8 @@ const getQueryParams = (queryString: string
   return result;
 };
 
-const getApiData = async (path: string, token: string | null) => {
+const getApiData = async (path: string) => {
+  const token = localStorage.getItem('token');
   const header = { headers: getHeaders(token) };
   const url = `${HOST}${path}`;
 
@@ -80,8 +81,9 @@ const getApiData = async (path: string, token: string | null) => {
     .catch(errorParser);
 };
 
-const postApiData = async (path: string, body: object, token: string | null) => {
+const postApiData = async (path: string, body: object) => {
   const url = `${HOST}${path}`;
+  const token = localStorage.getItem('token');
 
   return fetch(url, {
     method: 'POST',
@@ -93,8 +95,9 @@ const postApiData = async (path: string, body: object, token: string | null) => 
     .catch(errorParser);
 };
 
-const deleteApiData = async (path: string, token: string | null) => {
+const deleteApiData = async (path: string) => {
   const url = `${HOST}${path}`;
+  const token = localStorage.getItem('token');
 
   return fetch(url, {
     method: 'DELETE',
@@ -105,8 +108,9 @@ const deleteApiData = async (path: string, token: string | null) => {
     .catch(errorParser);
 };
 
-const putApiData = async (path: string, body: object, token: string | null) => {
+const putApiData = async (path: string, body: object) => {
   const url = `${HOST}${path}`;
+  const token = localStorage.getItem('token');
 
   return fetch(url, {
     method: 'PUT',

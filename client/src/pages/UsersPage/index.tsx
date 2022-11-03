@@ -11,12 +11,9 @@ import OperatorsContainer from '../../containers/OperatorsContainer';
 import { SignUpRequestI } from '../../types/users.interface';
 import { containerTypes } from '../../layouts/RenderLayout';
 import { activeStatus, prefixTypesData } from '../../constants/formData';
-import ProviderService from '../../services/ProvidersService';
 import { ProviderI } from '../../types/provider.interface';
-import ProductsService from '../../services/ProductsService';
 import { ProductsI } from '../../types/products.interface';
 import { UserTypesI } from '../../types/userTypes.interface';
-import UserTypesService from '../../services/UserTypesService';
 import useCombineTable from '../../hooks/tableHooks/useCombineTable';
 
 const UsersPage = () => {
@@ -35,21 +32,6 @@ const UsersPage = () => {
     UpdateService: UsersService.updateUser,
     DeleteService: UsersService.deleteUser,
   });
-
-  useEffect(() => {
-    const resultUserType = UserTypesService.getUserTypes();
-    const resultProvider = ProviderService.getProviders();
-    const resultProducts = ProductsService.getProducts();
-
-    Promise
-      .all([resultUserType, resultProvider, resultProducts])
-      .then(([userTypes, providers, products]) =>
-        setApiData({
-          userTypes,
-          providers,
-          products,
-        }));
-  }, []);
 
   const layoutData = [
     {
