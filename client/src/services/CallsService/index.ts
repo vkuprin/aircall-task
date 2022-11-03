@@ -1,12 +1,11 @@
 import { getApiData } from '../../utils/api';
 import { calls } from '../../constants/endpoints';
 
-const UsersService = {
+const CallsService = {
   async getCalls() {
-    return getApiData(
-      calls,
-    );
+    const result = await getApiData(calls);
+    return result?.nodes;
   },
 };
 
-export default UsersService;
+export default CallsService;

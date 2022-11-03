@@ -34,7 +34,7 @@ const SignIn = () => {
         if (!isHttpError(r.statusCode)) {
           setUserData(r.user);
           auth.signIn(username, () => navigate(from));
-          // set
+          localStorage.setItem('auth', JSON.stringify(r));
         } else {
           const firstKey = Object.keys(r.message)[0];
           useNotification({
@@ -81,7 +81,12 @@ const SignIn = () => {
                   },
                 ]}
               >
-                <Input placeholder="Email" />
+                <Input
+                  placeholder="Email"
+                  style={{
+                    fontSize: '14px',
+                  }}
+                />
               </Form.Item>
 
               <Form.Item

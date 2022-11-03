@@ -3,7 +3,7 @@ const signIn = `${authNamespace}/login`;
 const refresh = `${authNamespace}/refresh-token-v2`;
 const deprecatedRefresh = `${authNamespace}/refresh-token`;
 
-const calls = 'cals';
+const calls = 'calls';
 const callsDynamic = `${calls}/:id`;
 const callsDynamicNote = `${callsDynamic}/note`;
 const callsDynamicArchive = `${callsDynamic}/archive`;

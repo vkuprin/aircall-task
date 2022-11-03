@@ -9,7 +9,7 @@ import TokenService from '../../services/TokenService';
 interface AuthContextType {
     user: string;
     signIn: (email: string, callback: () => void) => void;
-    signOut: (callback: () => void) => void;
+    signOut: () => void;
 }
 
 interface RequireAuthProps {

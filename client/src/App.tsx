@@ -8,7 +8,7 @@ import 'antd/dist/antd.css';
 import './styles/main.scss';
 import './styles/responsive.scss';
 import './styles/form.scss';
-import UsersPage from './pages/UsersPage';
+import UsersPage from './pages/CallsPage';
 import ProfilePage from './pages/ProfilePage';
 import ErrorBoundary from './layouts/ErrorLayout';
 

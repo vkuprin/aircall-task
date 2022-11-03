@@ -43,6 +43,24 @@ div.ant-modal-wrap {
     }
 }
 
+.ant-input:focus {
+  border-color: #00b388;
+  box-shadow: 0 0 0 2px rgba(0, 179, 136, 0.2);
+}
+
+.ant-input:hover {
+  border-color: #00b388;
+}
+
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+  border-color: #00b388;
+}
+
+.ant-input-affix-wrapper:focus {
+  border-color: #00b388;
+  box-shadow: 0 0 0 2px rgba(0, 179, 136, 0.2);
+}
+
 .ant-input-password {
   input {
     position: relative;

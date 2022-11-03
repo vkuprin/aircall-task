@@ -4,7 +4,7 @@ import {
   Tag,
 } from 'antd';
 import { Link } from 'react-router-dom';
-import UsersService from '../../services/UsersService';
+import UsersService from '../../services/CallsService';
 
 import TableContainer from '../../containers/TableContainer';
 import OperatorsContainer from '../../containers/OperatorsContainer';
@@ -15,8 +15,9 @@ import { ProviderI } from '../../types/provider.interface';
 import { ProductsI } from '../../types/products.interface';
 import { UserTypesI } from '../../types/userTypes.interface';
 import useCombineTable from '../../hooks/tableHooks/useCombineTable';
+import CallsService from '../../services/CallsService';
 
-const UsersPage = () => {
+const CallsPage = () => {
   const [userData, setUserData] = useState([]);
   const [editingKey, setEditingKey] = useState('');
   const [apiData, setApiData] = useState<any>();
@@ -27,11 +28,12 @@ const UsersPage = () => {
     setUserData,
     userData,
     setEditingKey,
-    GetService: UsersService.getUsers,
-    AddService: UsersService.createUser,
-    UpdateService: UsersService.updateUser,
-    DeleteService: UsersService.deleteUser,
+    GetService: CallsService.getCalls,
   });
+
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
 
   const layoutData = [
     {
@@ -127,8 +129,8 @@ const UsersPage = () => {
 
   const columns = [
     {
-      title: 'Prefix',
-      dataIndex: 'namePrefix',
+      title: 'Call Type',
+      dataIndex: 'call_type',
       width: '5%',
       editable: true,
       render: (text: string, record: {id: string}) => <Link to={`/profile/${record.id}`}>{text}</Link>,
@@ -142,11 +144,18 @@ const UsersPage = () => {
       },
     },
     {
-      title: 'full name',
-      dataIndex: 'fullName',
+      title: 'Created Date',
+      dataIndex: 'created_at',
       width: '20%',
       editable: true,
-      render: (text: string, record: {id: string}) => <Link to={`/profile/${record.id}`}>{text}</Link>,
+      render: (text: string, record: {id: string}) => {
+        const date = new Date(text);
+        return (
+          <Link to={`/profile/${record.id}`}>
+            {date.toLocaleDateString()}
+          </Link>
+        );
+      },
       sorter: (a: { fullName: string; }, b: { fullName: string; }) => {
         const aLower = a.fullName.split(' ')[0].toLowerCase();
         const bLower = b.fullName.split(' ')[0].toLowerCase();
@@ -157,82 +166,71 @@ const UsersPage = () => {
       },
     },
     {
-      title: 'email',
-      dataIndex: 'email',
+      title: 'Direction',
+      dataIndex: 'direction',
       width: '20%',
       defaultSortOrder: 'descend',
       editable: true,
-      sorter: (a: { email: string; }, b: { email: string; }) => {
-        const aLower = a.email.toLowerCase();
-        const bLower = b.email.toLowerCase();
-        if (aLower > bLower) {
-          return 1;
-        }
-        return -1;
-      },
+      // sorter: (a: { email: string; }, b: { email: string; }) => {
+      //   const aLower = a.email.toLowerCase();
+      //   const bLower = b.email.toLowerCase();
+      //   if (aLower > bLower) {
+      //     return 1;
+      //   }
+      //   return -1;
+      // },
     },
     {
-      title: 'active',
-      dataIndex: 'active',
+      title: 'Duration',
+      dataIndex: 'duration',
+      width: '10%',
+      editable: false,
+    },
+    {
+      title: 'Archived',
+      dataIndex: 'is_archived',
       width: '10%',
       editable: false,
       render: (tags: string) => (
         tags ? (
           <Tag color="green">Active</Tag>
         ) : (
-          <Tag color="red">Inactive</Tag>
+          <Tag color="red">Archived</Tag>
         )
       ),
     },
     {
-      title: 'phone number',
-      dataIndex: 'phoneNumber',
+      title: 'From',
+      dataIndex: 'from',
       width: '20%',
       editable: true,
       sorter: (a: { phoneNumber: number; }, b: { phoneNumber: number; }) =>
         a.phoneNumber - b.phoneNumber,
     },
     {
-      title: 'Provider',
-      dataIndex: ['provider', 'domainName'],
-      width: '15%',
-      sorter: (a: { fullName: string; }, b: { fullName: string; }) => {
-        const aLower = a.fullName.split(' ')[0].toLowerCase();
-        const bLower = b.fullName.split(' ')[0].toLowerCase();
-        if (aLower > bLower) {
-          return 1;
-        }
-        return -1;
-      },
+      title: 'To',
+      dataIndex: 'to',
+      width: '20%',
+      editable: true,
+      sorter: (a: { phoneNumber: number; }, b: { phoneNumber: number; }) =>
+        a.phoneNumber - b.phoneNumber,
     },
     {
-      title: 'User Type',
-      dataIndex: ['userType', 'permission'],
-      width: '10%',
+      title: 'Via',
+      dataIndex: 'via',
+      width: '20%',
       editable: true,
-      sorter: (a: { fullName: string; }, b: { fullName: string; }) => {
-        const aLower = a.fullName.split(' ')[0].toLowerCase();
-        const bLower = b.fullName.split(' ')[0].toLowerCase();
-        if (aLower > bLower) {
-          return 1;
-        }
-        return -1;
-      },
+      sorter: (a: { phoneNumber: number; }, b: { phoneNumber: number; }) =>
+        a.phoneNumber - b.phoneNumber,
     },
-    {
-      title: 'Products',
-      dataIndex: ['product', 'name'],
-      width: '10%',
-      editable: true,
-      sorter: (a: { fullName: string; }, b: { fullName: string; }) => {
-        const aLower = a.fullName.split(' ')[0].toLowerCase();
-        const bLower = b.fullName.split(' ')[0].toLowerCase();
-        if (aLower > bLower) {
-          return 1;
-        }
-        return -1;
-      },
-    },
+    // {
+    //   title: 'ID',
+    //   dataIndex: 'id',
+    //   width: '20%',
+    //   editable: true,
+    //   sorter: (a: { phoneNumber: number; }, b: { phoneNumber: number; }) =>
+    //     a.phoneNumber - b.phoneNumber,
+    // },
     {
       title: 'operation',
       dataIndex: 'operation',
@@ -271,7 +269,7 @@ const UsersPage = () => {
 
   return (
     <TableContainer
-      title="Users"
+      title="Calls"
       dataFetch={userData}
       columns={columns}
       handleAdd={handleAdd}
@@ -283,4 +281,4 @@ const UsersPage = () => {
   );
 };
 
-export default UsersPage;
+export default CallsPage;

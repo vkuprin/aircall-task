@@ -7,13 +7,23 @@ const getUserAgent = () => navigator.userAgent;
 const headersData = {
   'X-edge-agent': getUserAgent(),
   'content-type': 'application/json',
-  'x-api-key': config.apiKey,
+  'x-api-key': config.appKey,
 };
 
 const getHeaders = (token: string | null) => ({
   ...headersData,
   Authorization: `Bearer ${token}`,
 });
+
+export const getUserToken = () => {
+  try {
+    const token = JSON.parse(localStorage.getItem('auth') || '')?.access_token;
+    return token;
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};
 
 export const responseParser = async (response: { json: () => any; }) => {
   let result;
@@ -71,7 +81,7 @@ const getQueryParams = (queryString: string
 };
 
 const getApiData = async (path: string) => {
-  const token = localStorage.getItem('token');
+  const token = getUserToken();
   const header = { headers: getHeaders(token) };
   const url = `${HOST}${path}`;
 
@@ -83,7 +93,7 @@ const getApiData = async (path: string) => {
 
 const postApiData = async (path: string, body: object) => {
   const url = `${HOST}${path}`;
-  const token = localStorage.getItem('token');
+  const token = getUserToken();
 
   return fetch(url, {
     method: 'POST',
@@ -110,7 +120,7 @@ const deleteApiData = async (path: string) => {
 
 const putApiData = async (path: string, body: object) => {
   const url = `${HOST}${path}`;
-  const token = localStorage.getItem('token');
+  const token = getUserToken();
 
   return fetch(url, {
     method: 'PUT',
