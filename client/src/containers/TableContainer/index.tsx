@@ -1,50 +1,28 @@
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import {
   Form, Table, FormInstance,
 } from 'antd';
-import type { TablePaginationConfig } from 'antd/es/table';
 import EditableCell from '../../components/EditableCell';
 import TableTitle from '../../components/TableTitle';
 
 interface TableContainerProps {
     dataFetch: any[];
     columns: any;
-    handleAdd: () => void;
     form: FormInstance;
-    setEditingKey: (key: string) => void;
     isEditing: any;
     title: string;
-    layoutData?: any[];
-}
-
-interface TableParams {
-    pagination?: TablePaginationConfig;
-    sortField?: string;
-    sortOrder?: string;
+    pagination: object;
 }
 
 const TableContainer = ({
   dataFetch,
   columns,
-  handleAdd,
-  layoutData,
   form,
-  setEditingKey,
   isEditing,
+  pagination,
   title,
   ...otherProps
 }: TableContainerProps) => {
-  const [tableParams, setTableParams] = useState<TableParams>({
-    pagination: {
-      current: 1,
-      pageSize: 10,
-    },
-  });
-
-  const cancel = () => {
-    setEditingKey('');
-  };
-
   const mergedColumns = columns.map((col: {
      editable: boolean;
      dataIndex: string;
@@ -71,19 +49,17 @@ const TableContainer = ({
       <div className="table-responsive">
         <Table
           title={() => <TableTitle title={title} />}
-          loading={dataFetch.length === 0}
+          loading={dataFetch?.length === 0}
           bordered
           dataSource={dataFetch}
           columns={mergedColumns}
           className="ant-border-space"
           rowClassName="editable-row"
+          pagination={pagination}
           components={{
             body: {
               cell: EditableCell,
             },
-          }}
-          pagination={{
-            onChange: cancel,
           }}
           {...otherProps}
         />

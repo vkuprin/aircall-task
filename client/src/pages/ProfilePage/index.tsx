@@ -1,66 +1,22 @@
 import {
-  Avatar, Card, Col, Descriptions, Row, Switch,
+  Avatar, Card, Col, Row, Switch,
 } from 'antd';
 
-import { useParams } from 'react-router-dom';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BgProfile from '../../assets/images/bg-signup.jpg';
 import profilavatar from '../../assets/images/profile_avatar.png';
-import { useCalls } from '../../context/CallsProvider';
-// import EditModal from './components/EditModal';
-// import UsersService from '../../services/UsersService';
-import useNotification from '../../hooks/useNotification';
+import CallsService from '../../services/CallsService';
 
 const ProfilePage = () => {
-  const [{
-    email,
-    fullName,
-    namePrefix,
-    phoneNumber,
-    practitionerId,
-    userType,
-    active,
-    product,
-    provider,
-    password,
-  }, setSpecificData] = useState<Record<string, any>>({});
-  const apiData = useCalls();
-  const { callsData } = apiData;
-  const { ID } = useParams();
+  const [specificData, setSpecificData] = useState<Record<string, any>>({});
 
-  // useEffect(() => {
-  //   if (ID) {
-  //     UsersService
-  //       .getSpecificUser(ID)
-  //       .then((userResult) => {
-  //         console.log(userResult);
-  //         setSpecificData(userResult);
-  //       });
-  //   }
-  // }, [ID, apiData]);
-
-  if (typeof callsData !== 'object') {
-    useNotification({
-      placement: 'topRight',
-      message: 'Error',
-      description: 'User data is not available please logout and login again',
+  useEffect(() => {
+    CallsService.myself().then((res) => {
+      setSpecificData(res);
+    }).catch((err) => {
+      console.log(err);
     });
-  }
-
-  const descriptions: Record<string, ReactNode> = {
-    Prefix: namePrefix || userData?.namePrefix,
-    'Full Name': fullName || userData?.fullName,
-    Mobile: phoneNumber || userData?.phoneNumber,
-    Email: email || userData?.email,
-    Active: active || userData?.active,
-    'User Type': userType?.name || userData?.userType?.name,
-    Permission: userType?.permission || userData?.userType?.permission,
-    'Practioner ID': practitionerId || userData?.practitionerId,
-    Provider: provider?.domainName,
-    Sentence: provider?.sentence,
-    Product: product?.name || userData?.product?.name,
-    Password: password,
-  };
+  }, []);
 
   return (
     <>
@@ -79,8 +35,8 @@ const ProfilePage = () => {
                 <Avatar size={74} shape="square" src={profilavatar} />
 
                 <div className="avatar-info">
-                  <h4 className="font-semibold m-0">{fullName || userData?.fullName}</h4>
-                  <p>{userType?.name || userData?.userType?.name}</p>
+                  <h4 className="font-semibold m-0">{specificData.id}</h4>
+                  <p>{specificData.username}</p>
                 </div>
               </Avatar.Group>
             </Col>
@@ -140,28 +96,9 @@ const ProfilePage = () => {
             bodyStyle={{ paddingTop: 0, paddingBottom: 16 }}
           >
             <p className="text-dark">
-              Technology :), Like to work in a team, I am a fast learner ...
+              You should hire me because I will make your life easier.
             </p>
             <hr className="my-25" />
-            <Descriptions title={fullName || userData?.fullName}>
-              {
-                Object.keys(descriptions).map((title: string, index: number) => {
-                  if (!descriptions[title]) return;
-                  if (title === 'Active') {
-                    return (
-                      <Descriptions.Item key={title} span={3} label={title}>
-                        {descriptions[title] ? 'Active' : 'Inactive'}
-                      </Descriptions.Item>
-                    );
-                  }
-                  return (
-                    <Descriptions.Item label={title} span={3} key={title}>
-                      {Object.values(descriptions)[index]}
-                    </Descriptions.Item>
-                  );
-                })
-              }
-            </Descriptions>
           </Card>
         </Col>
       </Row>

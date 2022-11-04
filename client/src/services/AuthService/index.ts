@@ -1,5 +1,5 @@
 import { postApiData } from '../../utils/api';
-import { signIn } from '../../constants/endpoints';
+import { refresh, signIn } from '../../constants/endpoints';
 
 export interface AuthServiceType {
     username: string;
@@ -19,10 +19,8 @@ const AuthService = {
   },
   async refreshTokenV2() {
     return await postApiData(
-      `${signIn}/refresh-token`,
-      {
-        refreshToken: localStorage.getItem('refreshToken'),
-      },
+      refresh,
+      {},
     );
   },
 };

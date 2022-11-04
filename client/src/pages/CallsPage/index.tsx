@@ -1,44 +1,69 @@
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Form,
   Tag,
+  Pagination,
 } from 'antd';
 import { Link } from 'react-router-dom';
 
 import TableContainer from '../../containers/TableContainer';
 import OperatorsContainer from '../../containers/OperatorsContainer';
 import { SignUpRequestI } from '../../types/users.interface';
-import useCombineTable from '../../hooks/tableHooks/useCombineTable';
 import CallsService from '../../services/CallsService';
+import pusher from '../../services/RealTime';
+import { CallsI } from '../../types/calls.interface';
+import useNotification from '../../hooks/useNotification';
 
 const CallsPage = () => {
   const [userData, setUserData] = useState([]);
-  const [editingKey, setEditingKey] = useState('');
-  const [apiData, setApiData] = useState<any>();
+  const [otherData, setOtherData] = useState([]);
+  const [editingKey] = useState('');
+  const [limit, setLimit] = useState(10);
+  const [offset, setOffset] = useState(0);
   const [form] = Form.useForm();
 
-  const { handleAdd } = useCombineTable({
-    form,
-    setUserData,
-    userData,
-    setEditingKey,
-    GetService: CallsService.getCalls,
-    AddService: CallsService.createNote,
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      await CallsService.getCalls({ limit, offset })
+        .then((res) => {
+          const newData = res?.nodes.map((item: { id: string }) =>
+            ({ ...item, key: item.id }));
+          setUserData(newData);
+          setOtherData(res?.totalCount);
+        })
+        .catch((err: { message: string; }) =>
+          useNotification({
+            placement: 'topRight',
+            message: 'Error',
+            description: err.message,
+          }));
+    };
+    fetchData();
+  }, [limit, offset]);
 
   useEffect(() => {
-    console.log(userData);
-  }, [userData]);
+    const channel = pusher.subscribe('private-aircall');
+    channel.bind('update-call', (data: Record<string, string>) => {
+      console.log('data', data);
+    });
+  }, []);
 
   const isEditing = (record: SignUpRequestI) => record.id === editingKey;
 
-  const cancel = () => {
-    setEditingKey('');
-  };
-
-  const handleArchive = (id: string) => {
-    CallsService.archiveCall(id).then(() => {
-      setUserData(userData.filter((item: any) => item.id !== id));
+  const handleArchive = async (id: string) => {
+    CallsService.archiveCall(id).then((res) => {
+      const newData: any = userData.map((item: CallsI) => {
+        if (item.id === id) {
+          return {
+            ...item,
+            ...res,
+          };
+        }
+        return item;
+      });
+      setUserData(newData);
+    }).catch((err) => {
+      console.log(err);
     });
   };
 
@@ -49,13 +74,10 @@ const CallsPage = () => {
       width: '5%',
       editable: true,
       render: (text: string, record: {id: string}) => <Link to={`/profile/${record.id}`}>{text}</Link>,
-      sorter: (a: { namePrefix: string; }, b: { namePrefix: string; }) => {
-        const aLower = a.namePrefix.split(' ')[0].toLowerCase();
-        const bLower = b.namePrefix.split(' ')[0].toLowerCase();
-        if (aLower > bLower) {
-          return 1;
-        }
-        return -1;
+      sorter: (a: { call_type: string; }, b: { call_type: string; }) => {
+        if (a.call_type < b.call_type) return -1;
+        if (a.call_type > b.call_type) return 1;
+        return 0;
       },
     },
     {
@@ -154,10 +176,17 @@ const CallsPage = () => {
       title="Calls"
       dataFetch={userData}
       columns={columns}
-      handleAdd={handleAdd}
       form={form}
       isEditing={isEditing}
-      setEditingKey={setEditingKey}
+        // @ts-ignore
+      totalCount={otherData}
+      pagination={{
+        total: otherData,
+        onChange: (page: number, pageSize: number) => {
+          setOffset(page);
+          setLimit(pageSize);
+        },
+      }}
     />
   );
 };

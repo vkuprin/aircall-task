@@ -32,9 +32,6 @@ const SignIn = () => {
         if (!isHttpError(r.statusCode)) {
           auth.signIn(username, () => navigate(from));
           localStorage.setItem('auth', JSON.stringify(r));
-          AuthService.refreshTokenV2().then((res) => {
-            console.log(res);
-          });
         } else {
           const firstKey = Object.keys(r.message)[0];
           useNotification({

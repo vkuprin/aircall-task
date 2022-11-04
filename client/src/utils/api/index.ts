@@ -1,4 +1,4 @@
-import config from '../../config';
+import AuthService from '../../services/AuthService';
 
 const HOST = 'https://frontend-test-api.aircall.dev/';
 
@@ -7,7 +7,6 @@ const getUserAgent = () => navigator.userAgent;
 const headersData = {
   'X-edge-agent': getUserAgent(),
   'content-type': 'application/json',
-  'x-api-key': config.appKey,
 };
 
 const getHeaders = (token: string | null) => ({
@@ -20,7 +19,6 @@ export const getUserToken = () => {
     const token = JSON.parse(localStorage.getItem('auth') || '')?.access_token;
     return token;
   } catch (e) {
-    console.error(e);
     return null;
   }
 };

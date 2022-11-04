@@ -5,6 +5,7 @@ import { useLocation, Navigate } from 'react-router-dom';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import getFromLocalStorage from '../../utils/helpers/storage';
 import TokenService from '../../services/TokenService';
+import AuthService from '../../services/AuthService';
 
 interface AuthContextType {
     user: string;
