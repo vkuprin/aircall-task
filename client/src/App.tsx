@@ -43,8 +43,7 @@ const App = () => {
           <CallsProvider>
             <Routes>
               <Route path="/" element={<SignInPage />} />
-              {
-              Object.keys(Components).map((route) => (
+              {Object.keys(Components).map((route) => (
                 <Route
                   path={`/${route}`}
                   key={route}
@@ -54,8 +53,7 @@ const App = () => {
                     </ProtectedMainLayout>
                 )}
                 />
-              ))
-      }
+              ))}
             </Routes>
           </CallsProvider>
         </AuthProvider>

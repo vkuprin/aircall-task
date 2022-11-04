@@ -1,5 +1,6 @@
 import getFromLocalStorage from '../../src/utils/helpers/storage';
 import isHttpError from '../../src/utils/api/statusCode';
+import { getUserToken } from '../../src/utils/api';
 
 describe('getFromLocalStorage', () => {
   it('should return null if no key is provided', () => {
@@ -35,5 +36,15 @@ describe('statusCode', () => {
     it('should return false if string is empty', () => {
       expect(isHttpError('')).toBe(false);
     });
+  });
+});
+
+describe('getUserToken', () => {
+  it('should return null if no token is found', () => {
+    expect(getUserToken()).toBeNull();
+  });
+  it('should return token if token is found', () => {
+    localStorage.setItem('auth', JSON.stringify({ access_token: 'test' }));
+    expect(getUserToken()).toBe('test');
   });
 });

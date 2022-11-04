@@ -57,29 +57,6 @@ const errorParser = async (err: any) => {
   return Promise.reject(error);
 };
 
-const generateURL = <T>(path: any, queryParams: { [p: string]: T }) => {
-  // Keep param with falsy value as a number, e. g. start = 0
-  const filteredParams: any = Object.entries(queryParams).filter((param) => typeof queryParams[param[0]] === 'number' || queryParams[param[0]]);
-  const query = new URLSearchParams(Object.fromEntries(filteredParams));
-
-  return `${path}?${query.toString()}`;
-};
-
-const getQueryParams = (queryString: string
-    | string[][]
-    | Record<string, string>
-    | URLSearchParams
-    | undefined, paramNames: any[]) => {
-  const params = new URLSearchParams(queryString);
-  const result = {} as any;
-
-  paramNames.forEach((paramName) => {
-    result[paramName] = params.get(paramName);
-  });
-
-  return result;
-};
-
 const getApiData = async (path: string) => {
   const token = getUserToken();
   const header = { headers: getHeaders(token) };
@@ -138,7 +115,5 @@ export {
   getApiData,
   putApiData,
   postApiData,
-  generateURL,
-  getQueryParams,
   deleteApiData,
 };
