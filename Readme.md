@@ -1,6 +1,7 @@
 ## Client Docs (cd client)
 #### Install dependencies
 Should be yarn version 3.2.0 (yarn set version berry)
+Node version 18.0.0
 ```
 $ yarn install
 ```
@@ -29,16 +30,3 @@ After that we can check production version with `yarn preview`
 * Typescript
 * Ant Design
 * In plans (react-query) for client browser caching
-
-## Server Docs (cd server)
-#### Install dependencies
-```
-$ yarn install
-$ Install Docker dependencies
-$ docker-compose up -d
-```
-
-#### Running local dev server. Do it only after you successfully run docker-compose database
-```
-$ yarn start
-```

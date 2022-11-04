@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import {
   Form,
   Tag,
-  Pagination,
 } from 'antd';
 import { Link } from 'react-router-dom';
 
