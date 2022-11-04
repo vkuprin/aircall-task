@@ -17,6 +17,12 @@ $ yarn dev
 $ yarn build
 ```
 
+### Testing
+```
+$ yarn test:unit
+$ yarn test:e2e
+```
+
 Build should be outputted to `dist/` folder
 
 After that we can check production version with `yarn preview`
