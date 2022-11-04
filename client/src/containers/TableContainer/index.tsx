@@ -1,12 +1,10 @@
 import { memo, useState } from 'react';
 import {
-  Form, Table, Button, FormInstance,
+  Form, Table, FormInstance,
 } from 'antd';
 import type { TablePaginationConfig } from 'antd/es/table';
 import EditableCell from '../../components/EditableCell';
 import TableTitle from '../../components/TableTitle';
-import Modal from '../../components/Modal';
-import RenderLayout, { containerTypes } from '../../layouts/RenderLayout';
 
 interface TableContainerProps {
     dataFetch: any[];
@@ -36,7 +34,6 @@ const TableContainer = ({
   title,
   ...otherProps
 }: TableContainerProps) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
       current: 1,
@@ -69,35 +66,6 @@ const TableContainer = ({
     };
   });
 
-  const handleAddModal = () => setIsModalVisible(true);
-
-  const closeModal = () => setIsModalVisible(false);
-
-  // ToDo - this should be passed as a prop to the table component
-  const layoutDataDefault = [
-    {
-      type: containerTypes.Input,
-      name: 'Email',
-      label: 'Email',
-      placeholder: 'Please enter your email',
-      required: true,
-    },
-    {
-      type: containerTypes.Input,
-      name: 'Full Name',
-      label: 'Full name',
-      placeholder: 'Please enter your full name',
-      required: true,
-    },
-    {
-      type: containerTypes.Input,
-      name: 'phoneNumber',
-      label: 'Phone Number',
-      placeholder: 'Please enter your phone number',
-      required: false,
-    },
-  ];
-
   return (
     <Form form={form} component={false}>
       <div className="table-responsive">
@@ -120,40 +88,6 @@ const TableContainer = ({
           {...otherProps}
         />
       </div>
-      <Button
-        onClick={handleAddModal}
-        type="primary"
-        style={{
-          // ToDo change to responsive approach
-          position: 'relative',
-          top: '-48px',
-        }}
-      >
-        Create
-      </Button>
-      {isModalVisible && (
-        <Modal
-          visible={isModalVisible}
-          onVisible={() => null}
-          onCancel={closeModal}
-          // className={cs('modal filter-modal', styles.editModal)}
-          footer={[
-            <Button
-              key="btn-filter-apply"
-              type="primary"
-              className="btn btn-primary"
-              onClick={() => {
-                handleAdd?.();
-                closeModal();
-              }}
-            >
-              Save
-            </Button>,
-          ]}
-        >
-          <RenderLayout data={layoutData || layoutDataDefault} />
-        </Modal>
-      )}
     </Form>
   );
 };
